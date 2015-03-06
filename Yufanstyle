@@ -1,0 +1,41 @@
+body
+  { 
+    background-image:url('bg1.jpg');
+    background-repeat:no-repeat;
+    background-position:center;
+    font-family: "Century Gothic", Arial, Sans-Serif;
+  }
+div.main {
+  width: 60%;
+  height:100%;
+  border: 1px solid #000000;
+  position:relative;
+  left: 20%;
+  }
+
+div.head {
+  height:100px;
+  color: red
+  border:1px solid #00FF00;
+  }
+
+div.photo {
+  float:left;
+  width:250px;
+  height:350px;
+  border:2px inset #CCCCCC;
+  margin-right: 1em;
+  }
+
+  /* This makes a text class named "special" */
+.special {
+  border: 3px solid #0000FF;
+  font-size: 150%;
+  text-align:center;
+  padding: 4em;
+  }
+
+
+div.content {
+  
+  }
