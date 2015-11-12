@@ -1,96 +1,55 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Step 1 - A Basic Pie Chart</title>
+    <link rel="stylesheet" href="normalize.css">
+  </head>
+  <body>
+    <div id="chart"></div>
+<script src="js/d3.min.js"></script>
+    <script>
+      (function(d3) {
+        'use strict';
 
-<title>Yufan Zhuang's Website</title>
-<link rel="stylesheet" type="text/css" media="screen" href="Style.css" />
+        var dataset = [
+          { label: 'Abulia', count: 10 }, 
+          { label: 'Betelgeuse', count: 20 },
+          { label: 'Cantaloupe', count: 30 },
+          { label: 'Dijkstra', count: 40 }
+        ];
 
+        var width = 360;
+        var height = 360;
+        var radius = Math.min(width, height) / 2;
 
+        var color = d3.scale.category20b();
 
-</head>
-<body>
+        var svg = d3.select('#chart')
+          .append('svg')
+          .attr('width', width)
+          .attr('height', height)
+          .append('g')
+          .attr('transform', 'translate(' + (width / 2) + 
+            ',' + (height / 2) + ')');
 
-<h1>Welcome to My Home </h1>
-<font size="3">PrismID: yzhuang37 </h1>
+        var arc = d3.svg.arc()
+          .outerRadius(radius);
 
+        var pie = d3.layout.pie()
+          .value(function(d) { return d.count; })
+          .sort(null);
 
+        var path = svg.selectAll('path')
+          .data(pie(dataset))
+          .enter()
+          .append('path')
+          .attr('d', arc)
+          .attr('fill', function(d, i) { 
+            return color(d.data.label);
+          });
 
-<div class="headerss">
-<p>
-
-   <a href="http://www.prism.gatech.edu/~yzhuang37/index.html">Home</a> 
-
-   <a href="http://www.prism.gatech.edu/~yzhuang37/mailform.html">Mail Form</a> 
-
-
- </p>
- </div>
-
-<h3>Introduction</h3>
-
-<p >
-I am Yufan Zhuang. I am an international student from China. Online Gaming is an essential part of my life. 
-<br />
-I played League of Legends sometimes.I ranked silver but dropped recently.
-<br />
-<img src="Yufan.jpg" alt="My picture" title="Myself"  / style="width:100px;height:150px;"; />
-
-</p>
-<br />
-<p >
-
-<h3>Course Plan - Spring 2015</h3>
-
-</p>
-
-
-<center>
-<table>
-	<table border ="3" >
-
-
- <tr>
-  <td>Course Name</td>
-  <td>Credits</td>
- </tr>
- <tr>
-  <td>ECE 2035</td>
-  <td>4</td>
- </tr>
- <tr>
-  <td>ECE 2031</td>
-  <td>2</td>
- </tr>
- <tr>
-  <td>ECE 3600</td>
-  <td>3</td>
- </tr>
- <tr>
-  <td>ECE 4607</td>
-  <td>3</td>
- </tr>
- <tr>
-  <td>CS 1331</td>
-  <td>3</td>
- </tr>
- <tr>
-  <td colspan="2">Total 15 Credits</td>
- </tr>
-</table>
-</center>
-
-<br />
-<a href="http://na.lolesports.com/" title="Do u want to play?">
-Need more infomation about LOL?</a>
-<br />
-<p>
-   <a href="http://lol.tga.plu.cn/lpl"><img src="an.jpg" /></a>
-</p>
-<br />
-<a href="mailto:yzhuang37@gatech.edu" >Email To Me</a>
-</body>
+      })(window.d3);
+    </script>
+  </body>
 </html>
-
