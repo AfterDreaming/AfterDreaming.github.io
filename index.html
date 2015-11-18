@@ -1,23 +1,130 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Data Visulization Dev</title>
-    <link rel="stylesheet" href="normalize.css">
-    <script src="js/d3.min.js"></script>
-  </head>
-  <body>
-    <div id="chart"></div>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+      rect.bordered {
+        stroke: #E6E6E6;
+        stroke-width:2px;   
+      }
 
-    <script type = "text/javascript">
-    var dataset = [ 5, 10, 15, 20, 25 ]; 
+      text.mono {
+        font-size: 9pt;
+        font-family: Consolas, courier;
+        fill: #aaa;
+      }
+
+
+      </style>
+      <meta charset="utf-8">
+      <title>Data Visulization Dev</title>
+      <link rel="stylesheet" href="normalize.css">
+      <script src="js/d3.min.js"></script>
+    </head>
+    <body>
+      <div id="chart"></div>
+      <div id="dataset-picker"></div>
+
+      <script type = "text/javascript">
+      var dataset = [ 100, 200,300,400, 500,600,700,800,900,1000,1100,1200,1300,1400 ];
+
+      var colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
+
+      var margin = { top: 100, right: 0, bottom: 100, left: 100 },
+      width = 1920 - margin.left - margin.right,
+      height = 1200 - margin.top - margin.bottom,
+      gridSize = Math.floor(width / 100),
+      legendElementWidth = gridSize*2;
+
+      function range(start, end) {
+        var foo = [];
+        for (var i = start; i <= end; i += 100) {
+          foo.push(i);
+        }
+        return foo;
+      }
+
+      //var location = range(1, 1404);
+
+      function strColor(s) {
+        if (s == 'A')
+          return 'blue';
+        if (s == 'T')
+          return 'yellow';
+        if (s == 'G')
+          return 'green';
+        if (s == 'C')
+          return 'red';
+        return 'black'
+      }
+
+      var svg = d3.select("#chart")
+      .append("svg")
+      .attr("width", width + margin.left+ margin.right)
+      .attr("height",height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+      var location_Labels = svg.selectAll(".locationLabel")
+      .data(dataset)
+      .enter().append("text")
+      .text(function(d) { return d; })
+      .style("font-size", gridSize)
+      .attr("x", function(d, i) { return d * gridSize; })
+      .attr("y", 0)
+      .style("text-anchor", "middle")
+      .attr("transform", "translate(" + gridSize / 2 + ", -6)");
+
+      //deal with the data
       d3.json("data/strains.json", function(data){
-        //var length = data.length;
-        //
-        console.log(data.id);
-        debugger;
-      })
+            //var length = data.length;
+            //
+            //console.log(dataset);
+            //debugger;
 
-    </script>
-  </body>
+            var id_Labels = svg.selectAll(".idLabel")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(function (d) { return d.id; })
+            .attr("x", 0)
+            .attr("y", function (d, i) { return  i* gridSize; })
+            .style("font-size", gridSize)
+            .style("text-anchor", "end")
+            .attr("transform", "translate(-6," + gridSize / 1.5 + ")");
+            //debugger;
+
+
+            for (i = 0; i < data.length; i++) {
+
+              var cards = svg.selectAll(".base")
+              .data(data[i].sequences);
+
+              ;
+
+              cards.enter().append("rect")
+              .attr("x", function (d, j) { 
+                //debugger;
+                return  j* gridSize; 
+              })
+              .attr("y", function (d, j) {
+               return  i * gridSize; 
+             })
+              .attr("rx", 4)
+              .attr("ry", 4)
+              .attr("class", "hour bordered")
+              .attr("width", gridSize)
+              .attr("height", gridSize)
+              .style("fill", function (d) { 
+                return strColor(d); 
+              });
+
+              cards.append("title")
+              .text(function(d, j) { return " " + d +" location: " + j; });
+
+            }
+
+          })
+          </script>
+    </body>
 </html>
