@@ -158,9 +158,10 @@
 
         var vakken = svg.selectAll(".sequences")
         .data(data)
-        .enter().append("g")
+        .enter()
+        .append("g")
         .attr("class", "bar")
-        .attr("transform", function(d,i) { 
+        .attr("transform", function(d) { 
           //debugger;
           return "translate(0," + y(d.Sequence_ID) + ")"; 
         }
@@ -240,7 +241,6 @@
           var cards = svg.selectAll(".base")
           .data(data[i].sequences);
 
-          ;
 
           cards.enter().append("rect")
           .attr("x", function (d, j) { 
