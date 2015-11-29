@@ -28,7 +28,7 @@
       <script src="js/d3.min.js"></script>
     </head>
     <body>
-      <div id="chart"></div>
+      <div id="heat-map"></div>
       <div id="stack-bar"></div>
 
       <script type = "text/javascript">
@@ -72,8 +72,9 @@
       var margin = { top: 100, right: 0, bottom: 100, left: 100 },
       width = 1920 - margin.left - margin.right,
       height = 1200 - margin.top - margin.bottom,
-      gridSize = Math.floor(width / 100),
-      legendElementWidth = gridSize*2;
+      gridWidth = Math.floor(width / 100),
+      gridHeight = gridWidth,
+      legendElementWidth = gridHeight*2;
 
 
       var y = d3.scale.ordinal()
@@ -95,9 +96,13 @@
       .scale(y)
       .orient("left")
 
-      var svg = d3.select("#stack-bar").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      var stack_width = (width + margin.left + margin.right)/1,
+      stack_height = (height + margin.top + margin.bottom)/1;
+
+
+      var svg_stack = d3.select("#stack-bar").append("svg")
+      .attr("width", stack_width)
+      .attr("height", stack_height)
       .attr("id", "d3-plot")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -148,15 +153,15 @@
         })
         );
 
-        svg.append("g")
+        svg_stack.append("g")
         .attr("class", "x axis")
         .call(xAxis);
 
-        svg.append("g")
+        svg_stack.append("g")
         .attr("class", "y axis")
         .call(yAxis);
 
-        var vakken = svg.selectAll(".sequences")
+        var vakken = svg_stack.selectAll(".sequences")
         .data(data)
         .enter()
         .append("g")
@@ -196,9 +201,56 @@
         .style("fill", "#F5F5F5")
         .attr("class", function(d,index) { return index%2==0 ? "even" : "uneven"; });
 
-      })
+        svg_stack.append("g")
+        .attr("class", "y axis")
+        .append("line")
+        .attr("x1", x(0))
+        .attr("x2", x(0))
+        .attr("y2", height);
 
-    var svg = d3.select("#chart")
+        var startp = svg_stack.append("g")
+        .attr("class", "legendbox")
+        .attr("id", "mylegendbox");
+  // this is not nice, we should calculate the bounding box and use that
+        var legend_tabs = [0, 120, 200, 375, 450];
+        var legend = startp.selectAll(".legend")
+        .data(color.domain().slice())
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { 
+          return "translate(" + legend_tabs[i] + ",-45)";
+          });
+
+        legend.append("rect")
+        .attr("x", 0)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", color);
+
+        legend.append("text")
+        .attr("x", 22)
+        .attr("y", 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "begin")
+        .style("font" ,"10px sans-serif")
+        .text(function(d) { return d; });
+
+        d3.selectAll(".axis path")
+        .style("fill", "none")
+        .style("stroke", "#000")
+        .style("shape-rendering", "crispEdges")
+
+        d3.selectAll(".axis line")
+        .style("fill", "none")
+        .style("stroke", "#000")
+        .style("shape-rendering", "crispEdges")
+
+        var movesize = width/2 - startp.node().getBBox().width/2;
+        d3.selectAll(".legendbox").attr("transform", "translate(" + movesize  + ",0)");
+
+    });
+
+    var svg_heat = d3.select("#heat-map")
     .append("svg")
     .attr("width", width + margin.left+ margin.right)
     .attr("height",height + margin.top + margin.bottom)
@@ -206,15 +258,15 @@
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-    var location_Labels = svg.selectAll(".locationLabel")
+    var location_Labels = svg_heat.selectAll(".locationLabel")
     .data(dataset)
     .enter().append("text")
     .text(function(d) { return d; })
-    .style("font-size", gridSize)
-    .attr("x", function(d, i) { return d * gridSize; })
+    .style("font-size", gridHeight)
+    .attr("x", function(d, i) { return d * gridWidth; })
     .attr("y", 0)
     .style("text-anchor", "middle")
-    .attr("transform", "translate(" + gridSize / 2 + ", -6)");
+    .attr("transform", "translate(" + gridHeight / 2 + ", -6)");
 
       //deal with the data
       d3.json("data/strains.json", function(data) {
@@ -223,39 +275,41 @@
         //console.log(dataset);
         //debugger;
 
-        var id_Labels = svg.selectAll(".idLabel")
+        var id_Labels = svg_heat.selectAll(".idLabel")
         .data(data)
         .enter()
         .append("text")
         .text(function (d) { return d.id; })
         .attr("x", 0)
-        .attr("y", function (d, i) { return  i* gridSize; })
-        .style("font-size", gridSize)
+        .attr("y", function (d, i) { return  i* gridHeight; })
+        .style("font-size", gridHeight)
         .style("text-anchor", "end")
-        .attr("transform", "translate(-6," + gridSize / 1.5 + ")");
+        .attr("transform", "translate(-6," + gridHeight / 1.5 + ")");
         //debugger;
 
 
         for (i = 0; i < data.length; i++) {
 
-          var cards = svg.selectAll(".base")
+          var cards = svg_heat.selectAll(".base")
           .data(data[i].sequences);
 
 
-          cards.enter().append("rect")
-          .attr("x", function (d, j) { 
+          cards.enter().append("line")
+          .attr("x1", function (d, j) { 
             //debugger;
-            return  j* gridSize; 
+            return  j; 
           })
-          .attr("y", function (d, j) {
-           return  i * gridSize; 
+          .attr("y1", function (d, j) {
+           return  i * gridHeight; 
          })
-          .attr("rx", 4)
-          .attr("ry", 4)
-          .attr("class", "hour bordered")
-          .attr("width", gridSize)
-          .attr("height", gridSize)
-          .style("fill", function (d) { 
+          .attr("x2", function (d, j) { 
+            //debugger;
+            return  j; 
+          })
+          .attr("y2", function (d, j) {
+           return  i * gridHeight + gridHeight; 
+         })
+          .style("stroke", function (d) { 
             return strColor(d); 
           });
 
