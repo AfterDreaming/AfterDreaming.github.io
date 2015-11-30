@@ -34,14 +34,6 @@
       <script type = "text/javascript">
 
 
-      function range(start, end) {
-        var foo = [];
-        for (var i = start; i <= end; i += 100) {
-          foo.push(i);
-        }
-        return foo;
-      }
-
       //var location = range(1, 1404);
 
       function strColor(s) {
@@ -83,7 +75,7 @@
       stack_height = (height + margin.top + margin.bottom);
 
       var color = d3.scale.ordinal()
-        .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
+      .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
 
       color.domain(['Symptoms','Mortality','Complications','Drug_Resistance','At_Risk_Vulnerability']);
 
@@ -104,6 +96,12 @@
       .scale(y)
       .orient("left");
 
+      var svg_heat = d3.select("#heat-map")
+      .append("svg")
+      .attr("width", width + margin.left+ margin.right)
+      .attr("height",height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       var svg_stack = d3.select("#stack-bar").append("svg")
       .attr("width", stack_width)
@@ -112,120 +110,147 @@
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      function draw(data){
+        var location_Labels = svg_heat.selectAll(".locationLabel")
+        .data(dataset)
+        .enter().append("text")
+        .text(function(d) { return d; })
+        .style("font-size", gridHeight)
+        .attr("x", function(d, i) { return d * gridWidth; })
+        .attr("y", 0)
+        .style("text-anchor", "middle")
+        .attr("transform", "translate(" + gridHeight / 2 + ", -6)");
 
 
-      d3.tsv("data/DiseaseCharacteristics.tsv", function(data) {
-        data.forEach(function(d){
-          d['Symptoms'] = +numLevel(d['Symptoms']);
-          d['Mortality'] = +numLevel(d['Mortality']);
-          d['Complications'] = +numLevel(d['Complications']);
-          d['Drug_Resistance'] = +numLevel(d['Drug_Resistance']);
-          d['At_Risk_Vulnerability'] = +numLevel(d['At_Risk_Vulnerability']);
-          d.N = d['Symptoms']+d['Mortality']+d['Complications']+d['Drug_Resistance']
-          +d['Drug_Resistance']+d['At_Risk_Vulnerability'];
-
-          var x0 = 0;
-          var idx = 0;
-          //debugger;
-          d.boxes = color.domain().map(function(attrName) {
-          //console.log(attrName);
-          //debugger; 
-          return {
-            name: attrName,
-            x0: x0, 
-            x1: x0 += +d[attrName],
-            N: +d.N,
-            //n: +d[idx += 1]
-            };
-          });
-        });
+        var id_Labels = svg_heat.selectAll(".idLabel")
+        .data(data)
+        .enter()
+        .append("text")
+        .text(function (d) { return d.Sequence_ID; })
+        .attr("x", 0)
+        .attr("y", function (d, i) { return  i* gridHeight; })
+        .style("font-size", gridHeight)
+        .style("text-anchor", "end")
+        .attr("transform", "translate(-6," + gridHeight / 1.5 + ")");
         //debugger;
-        var min_val = d3.min(data, function(d) {
+
+
+        data.forEach(function(d, i){
+          var cards = svg_heat.selectAll(".base")
+          .data(d.Sequences);
+
+          cards.enter().append("line")
+          .attr("x1", function (d, j) { 
+            //debugger;
+            return  j; 
+          })
+          .attr("y1", function (d, j) {
+           return  i * gridHeight; 
+         })
+          .attr("x2", function (d, j) { 
+            //debugger;
+            return  j; 
+          })
+          .attr("y2", function (d, j) {
+           return  i * gridHeight + gridHeight; 
+         })
+          .style("stroke", function (d) { 
+            return strColor(d); 
+          });
+
+          cards.append("title")
+          .text(function(d, j) { return " " + d +" location: " + j; });
+        });
+
+
+
+         //debugger;
+         var min_val = d3.min(data, function(d) {
           // console.log(d.boxes["0"]);
           // debugger;
           //Symptoms
           return d.boxes["0"].x0;
         });
 
-        var max_val = d3.max(data, function(d) {
+         var max_val = d3.max(data, function(d) {
           //At_Risk_Vulnerability
           return d.boxes["4"].x1;
         });
 
-        x.domain([min_val, max_val]).nice();
-        y.domain(data.map(function(d) { 
+         x.domain([min_val, max_val]).nice();
+         y.domain(data.map(function(d) { 
           return d.Sequence_ID; 
           })
-        );
+         );
 
-        svg_stack.append("g")
-        .attr("class", "x axis")
-        .call(xAxis);
+         svg_stack.append("g")
+         .attr("class", "x axis")
+         .call(xAxis);
 
-        svg_stack.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
+         svg_stack.append("g")
+         .attr("class", "y axis")
+         .call(yAxis);
 
-        var vakken = svg_stack.selectAll(".sequences")
-        .data(data)
-        .enter()
-        .append("g")
-        .attr("class", "bar")
-        .attr("transform", function(d) { 
+         var vakken = svg_stack.selectAll(".sequences")
+         .data(data)
+         .enter()
+         .append("g")
+         .attr("class", "bar")
+         .attr("transform", function(d) { 
           //debugger;
           return "translate(0," + y(d.Sequence_ID) + ")"; 
-        }
-        );
+          }
+          );
 
-        var bars = vakken.selectAll("rect")
-        .data(function(d) { return d.boxes; })
-        .enter()
-        .append("g")
-        .attr("class", "subbar");
+         var bars = vakken.selectAll("rect")
+         .data(function(d) { return d.boxes; })
+         .enter()
+         .append("g")
+         .attr("class", "subbar");
 
-        bars.append("rect")
-        .attr("height", y.rangeBand())
-        .attr("x", function(d) { return x(d.x0); })
-        .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-        .style("fill", function(d) { return color(d.name); });
+         bars.append("rect")
+         .attr("height", y.rangeBand())
+         .attr("x", function(d) { return x(d.x0); })
+         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
+         .style("fill", function(d) { return color(d.name); });
 
-        bars.append("text")
-        .attr("x", function(d) { return x(d.x0); })
-        .attr("y", y.rangeBand()/2)
-        .attr("dy", "0.5em")
-        .attr("dx", "0.5em")
-        .style("font" ,"10px sans-serif")
-        .style("text-anchor", "begin")
-        .text(function(d) { return d.n !== 0 && (d.x1-d.x0) > 3 ? d.n : "" });
+         bars.append("text")
+         .attr("x", function(d) { return x(d.x0); })
+         .attr("y", y.rangeBand()/2)
+         .attr("dy", "0.5em")
+         .attr("dx", "0.5em")
+         .style("font" ,"10px sans-serif")
+         .style("text-anchor", "begin")
+         .text(function(d) { return d.n !== 0 && (d.x1-d.x0) > 3 ? d.n : "" });
 
-        vakken.insert("rect",":first-child")
-        .attr("height", y.rangeBand())
-        .attr("x", "1")
-        .attr("width", stack_width)
-        .attr("fill-opacity", "0.5")
-        .style("fill", "#F5F5F5")
-        .attr("class", function(d,index) { return index%2==0 ? "even" : "uneven"; });
+         vakken.insert("rect",":first-child")
+         .attr("height", y.rangeBand())
+         .attr("x", "1")
+         .attr("width", stack_width)
+         .attr("fill-opacity", "0.5")
+         .style("fill", "#F5F5F5")
+         .attr("class", function(d,index) { return index%2==0 ? "even" : "uneven"; });
 
-        svg_stack.append("g")
-        .attr("class", "y axis")
-        .append("line")
-        .attr("x1", x(0))
-        .attr("x2", x(0))
-        .attr("y2", stack_height);
+         svg_stack.append("g")
+         .attr("class", "y axis")
+         .append("line")
+         .attr("x1", x(0))
+         .attr("x2", x(0))
+         .attr("y2", stack_height);
 
-        var startp = svg_stack.append("g")
-        .attr("class", "legendbox")
-        .attr("id", "mylegendbox");
+         var startp = svg_stack.append("g")
+         .attr("class", "legendbox")
+         .attr("id", "mylegendbox");
   // this is not nice, we should calculate the bounding box and use that
         var legend_tabs = [0, 100, 200, 300, 420];
         var legend = startp.selectAll(".legend")
-          .data(color.domain().slice())
-          .enter()
-          .append("g")
-          .attr("class", "legend")
-          .attr("transform", function(d, i) { 
-            return "translate(" + legend_tabs[i] + ",-45)";
-            });
+        .data(color.domain().slice())
+        .enter()
+        .append("g")
+        .attr("class", "legend")
+        .attr("transform", function(d, i) { 
+          return "translate(" + legend_tabs[i] + ",-45)";
+        });
 
         legend.append("rect")
         .attr("x", 0)
@@ -253,75 +278,48 @@
 
         // var movesize = width/2 - startp.node().getBBox().width/2;
         // d3.selectAll(".legendbox").attr("transform", "translate(" + movesize  + ",0)");
-
-    });
-
-    var svg_heat = d3.select("#heat-map")
-    .append("svg")
-    .attr("width", width + margin.left+ margin.right)
-    .attr("height",height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-    var location_Labels = svg_heat.selectAll(".locationLabel")
-    .data(dataset)
-    .enter().append("text")
-    .text(function(d) { return d; })
-    .style("font-size", gridHeight)
-    .attr("x", function(d, i) { return d * gridWidth; })
-    .attr("y", 0)
-    .style("text-anchor", "middle")
-    .attr("transform", "translate(" + gridHeight / 2 + ", -6)");
-
-      //deal with the data
-      d3.json("data/strains.json", function(data) {
-        //var length = data.length;
-        //
-        //console.log(dataset);
-        //debugger;
-
-        var id_Labels = svg_heat.selectAll(".idLabel")
-        .data(data)
-        .enter()
-        .append("text")
-        .text(function (d) { return d.id; })
-        .attr("x", 0)
-        .attr("y", function (d, i) { return  i* gridHeight; })
-        .style("font-size", gridHeight)
-        .style("text-anchor", "end")
-        .attr("transform", "translate(-6," + gridHeight / 1.5 + ")");
-        //debugger;
-
-
-        data.forEach(function(d,i){
-          var cards = svg_heat.selectAll(".base")
-          .data(d.sequences);
-          cards.enter().append("line")
-          .attr("x1", function (d, j) { 
-            //debugger;
-            return  j; 
-          })
-          .attr("y1", function (d, j) {
-           return  i * gridHeight; 
-         })
-          .attr("x2", function (d, j) { 
-            //debugger;
-            return  j; 
-          })
-          .attr("y2", function (d, j) {
-           return  i * gridHeight + gridHeight; 
-         })
-          .style("stroke", function (d) { 
-            return strColor(d); 
-          });
-
-          cards.append("title")
-          .text(function(d, j) { return " " + d +" location: " + j; });
-        }
-        )
       }
-    );
+
+
+
+
+
+
+      d3.tsv("data/DiseaseCharacteristics.tsv", function(data2) {
+
+        d3.json("data/strains.json", function(data1) {
+          data2.forEach(function(d2) {
+            data1.forEach(function(d1) {
+              if(d1.id == d2.Sequence_ID) { 
+                d2['Sequences'] = d1.sequences;
+                d2['Symptoms'] = +numLevel(d2['Symptoms']);
+                d2['Mortality'] = +numLevel(d2['Mortality']);
+                d2['Complications'] = +numLevel(d2['Complications']);
+                d2['Drug_Resistance'] = +numLevel(d2['Drug_Resistance']);
+                d2['At_Risk_Vulnerability']= +numLevel(d2['At_Risk_Vulnerability']);
+                d2.N = d2['Symptoms']+d2['Mortality']+d2['Complications']+d2['Drug_Resistance'] +d2['Drug_Resistance']+d2['At_Risk_Vulnerability'];
+                  //console.log(d2);
+                  var x0 = 0;
+                  var idx = 0;
+                  //debugger;
+                  d2.boxes = color.domain().map(function(attrName) {
+                  //console.log(attrName);
+                  //debugger; 
+                  return {
+                    name: attrName,
+                    x0: x0, 
+                    x1: x0 += +d2[attrName],
+                    N: +d2.N,
+                    //n: +d[idx += 1]
+                  };
+                });
+                }
+              });
+  });
+    draw(data2);
+  });
+  });
+
     </script>
   </body>
   </html>
