@@ -1,0 +1,96 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+      rect.bordered {
+        stroke: #E6E6E6;
+        stroke-width:2px;   
+      }
+
+      text.mono {
+        font-size: 9pt;
+        font-family: Consolas, courier;
+        fill: #aaa;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+
+
+
+      </style>
+      <meta charset="utf-8">
+      <title>Data Visulization Dev</title>
+      <link rel="stylesheet" href="normalize.css">
+      <script src="js/d3.min.js"></script>
+    </head>
+    <body>
+      <div id="heat-map"></div>
+      <div id="stack-bar"></div>
+
+      <script type = "text/javascript">
+
+
+      function range(start, end) {
+        var foo = [];
+        for (var i = start; i <= end; i += 100) {
+          foo.push(i);
+        }
+        return foo;
+      }
+
+      //var location = range(1, 1404);
+
+      function strColor(s) {
+        if (s == 'A')
+          return 'blue';
+        if (s == 'T')
+          return 'yellow';
+        if (s == 'G')
+          return 'green';
+        if (s == 'C')
+          return 'red';
+        return 'black';
+      }
+
+      function numLevel(s) {
+        if (s == "Mild"||s =="Low" || s =="Minor"||s == "Susceptible")
+          return 1;
+        if (s == "Moderate"||s =="Medium" ||s == "Major"||s == "Intermediate")
+          return 2;
+        if (s == "Severe"||s =="High" || s == "Resistant")
+          return 3;
+
+        return 100; //sth is wrong
+      }
+
+
+
+      var data = [];
+      d3.tsv("data/DiseaseCharacteristics.tsv", function(data2) {
+
+        d3.json("data/strains.json", function(data1) {
+          data2.forEach(function(d2) {
+            data1.forEach(function(d1) {
+              if(d1.id == d2.Sequence_ID) { 
+                  d2['Sequences'] = d1.sequences;
+                  d2['Symptoms'] = +numLevel(d2['Symptoms']);
+                  d2['Mortality'] = +numLevel(d2['Mortality']);
+                  d2['Complications'] = +numLevel(d2['Complications']);
+                  d2['Drug_Resistance'] = +numLevel(d2['Drug_Resistance']);
+                  d2['At_Risk_Vulnerability']= +numLevel(d2['At_Risk_Vulnerability']);
+                  d2.N = d2['Symptoms']+d2['Mortality']+d2['Complications']+d2['Drug_Resistance'] +d2['Drug_Resistance']+d2['At_Risk_Vulnerability'];
+                  //console.log(d2);
+                  data.push(d2);
+              }
+            });
+          });
+        });
+         // debugger;
+      });
+      </script>
+    </body>
+    </html>
