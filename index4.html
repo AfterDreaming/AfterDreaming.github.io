@@ -28,124 +28,134 @@
       <title>Data Visulization Dev</title>
       <link rel="stylesheet" href="normalize.css">
       <script src="js/d3.min.js"></script>
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
     <body>
-    <div id="filter" style="border:3px; display:inline-block;vertical-align:text-top;">
-      <ul><li style="display:inline-block; vertical-align:text-top;"><button type="button" onclick="draw(overallData)"><strong>Filter</strong></button></li></ul>
-      <ul>
-        <li style="display:inline-block; vertical-align:text-top;"><div id="symptoms" >
-          <label><strong>Symptoms</strong></label><br>
-          <label for="S-Severe">Severe</label><input type="checkbox" checked id="S-Severe"> <br>
+		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#sortnfilter">Sorting and Filtering Options</button>
+		<div id="sortnfilter" class="collapse">	
+			<div id="filter" style="border:3px; display:inline-block;vertical-align:text-top;">
+				<ul><li style="display:inline-block; vertical-align:text-top;"><button type="button" onclick="draw(overallData)"><strong>Filter</strong></button></li></ul>
+				<ul>
+					<li style="display:inline-block; vertical-align:text-top;"><div id="symptoms" >
+						<label><strong>Symptoms</strong></label><br>
+						<label for="S-Severe">Severe</label><input type="checkbox" checked id="S-Severe"> <br>
 
-          <label for="S-Moderate">Moderate</label><input type="checkbox" checked id="S-Moderate"> <br>
+						<label for="S-Moderate">Moderate</label><input type="checkbox" checked id="S-Moderate"> <br>
 
-          <label for="S-Mild">Mild</label><input type="checkbox" checked id="S-Mild">
-        </div></li>
-
-
-        <li style="display:inline-block; vertical-align: text-top;"><div id="Mortality">
-          <label><strong>Mortality</strong></label><br>
-          <label for="M-High">High</label><input type="checkbox" checked id="M-High"> <br>
-                              
-          <label for="M-Medium">Medium</label><input type="checkbox" checked id="M-Medium"> <br>
-                              
-          <label for="M-Low">Low</label><input type="checkbox" checked id="M-Low">          
-        </div></li>
-          
-          
-        <li style="display:inline-block; vertical-align: text-top;"><div id="Complications">
-          <label><strong>Complications</strong></label><br>
-          <label for="C-Major">Major</label><input type="checkbox" checked id="C-Major"> <br>
-
-          <label for="C-Minor">Minor</label><input type="checkbox" checked id="C-Minor"> <br>
-        </div></li>
+						<label for="S-Mild">Mild</label><input type="checkbox" checked id="S-Mild">
+					</div></li>
 
 
-        <li style="display:inline-block; vertical-align: text-top;"><div id="Drug_Resistance">
-          <label><strong>Drug Resistance</strong></label><br>
-          <label for="D-Resistant">Resistant</label><input type="checkbox" checked id="D-Resistant"> <br>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Mortality">
+						<label><strong>Mortality</strong></label><br>
+						<label for="M-High">High</label><input type="checkbox" checked id="M-High"> <br>
+																
+						<label for="M-Medium">Medium</label><input type="checkbox" checked id="M-Medium"> <br>
+															  
+						<label for="M-Low">Low</label><input type="checkbox" checked id="M-Low">          
+					</div></li>
+						
+						
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Complications">
+						<label><strong>Complications</strong></label><br>
+						<label for="C-Major">Major</label><input type="checkbox" checked id="C-Major"> <br>
 
-          <label for="D-Intermediate">Intermediate</label><input type="checkbox" checked id="D-Intermediate"> <br>
-
-          <label for="D-Susceptible">Susceptible</label><input type="checkbox" checked id="D-Susceptible"> <br>
-        </div></li>
+						<label for="C-Minor">Minor</label><input type="checkbox" checked id="C-Minor"> <br>
+					</div></li>
 
 
-        <li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
-          <label><strong>Vulnerability</strong></label><br>
-          <label for="V-High">High</label><input type="checkbox" checked id="V-High"> <br>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Drug_Resistance">
+						<label><strong>Drug Resistance</strong></label><br>
+						<label for="D-Resistant">Resistant</label><input type="checkbox" checked id="D-Resistant"> <br>
 
-          <label for="V-Medium">Medium</label><input type="checkbox" checked id="V-Medium"> <br>
+						<label for="D-Intermediate">Intermediate</label><input type="checkbox" checked id="D-Intermediate"> <br>
 
-          <label for="V-Low">Low</label><input type="checkbox" checked id="V-Low"> <br>
-        </div></li>
+						<label for="D-Susceptible">Susceptible</label><input type="checkbox" checked id="D-Susceptible"> <br>
+					</div></li>
 
-        <li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
-          <label for="Custom"><strong>Custom Filter by Gene Sequence</strong></label><input type="checkbox" checked id="Custom"> <br>
-          <label for="Cust-ID">Strain ID</label>
-            <select id="Cust-ID">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="opel">Opel</option>
-              <option value="audi">Audi</option>
-            </select> <br>
 
-          <label for="Cust-Start">Start Position</label>
-            <select id="Cust-Start">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="opel">Opel</option>
-              <option value="audi">Audi</option>
-            </select> <br>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
+						<label><strong>Vulnerability</strong></label><br>
+						<label for="V-High">High</label><input type="checkbox" checked id="V-High"> <br>
 
-          <label for="Cust-End">End Position</label>
-            <select id="Cust-End">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="opel">Opel</option>
-              <option value="audi">Audi</option>
-            </select> <br>
-        </div></li>
-      </ul>
-    </div>
+						<label for="V-Medium">Medium</label><input type="checkbox" checked id="V-Medium"> <br>
 
-    <div id="sort" style="border:3px;display:inline-block;vertical-align:text-top;">
-      <ul><li style="display:inline-block; vertical-align:text-top;"><strong>Sort</strong></li></ul>
-      <ul>
-        <table>
-          <tr>
-            <td><label>Sort By Total Danger:</label></td>
-            <td><button type="button" onclick="changeSortID(1)"><strong>Click</strong></button></td>
+						<label for="V-Low">Low</label><input type="checkbox" checked id="V-Low"> <br>
+					</div></li>
 
-            <td><label>Sort By Symptoms:</label></td>
-            <td><button type="button" onclick="changeSortID(2)"><strong>Click</strong></button></td>
-          </tr>
-          <tr>
-            <td><label>Sort By Mortality:</label></td>
-            <td><button type="button" onclick="changeSortID(3)"><strong>Click</strong></button></td>
-          
-            <td><label>Sort By Complications:</label></td>
-            <td><button type="button" onclick="changeSortID(4)"><strong>Click</strong></button></td>
-          </tr>
-          <tr>
-            <td><label>Sort By Drug Resistance:</label></td>
-            <td><button type="button" onclick="changeSortID(5)"><strong>Click</strong></button></td>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
+						<label for="Custom"><strong>Custom Filter by Gene Sequence</strong></label><input type="checkbox" id="Custom"> <br>
+						<label for="Cust-ID">Strain ID</label>
+							<select id="Cust-ID">
+							</select> <br>
 
-            <td><label>Sort By Danger to Children and Elderly:</label></td>
-            <td><button type="button" onclick="changeSortID(6)"><strong>Click</strong></button></td>
-          </tr>
-        </table>
-      </ul>
-    </div>
-    <div id="heat-map" class="div-inline"></div>
-    <div id="stack-bar" class="div-inline"></div>
-        <div id="full-view"> here </div>
+						<label for="Cust-Start">Start Position</label>
+							<select id="Cust-Start">
+							</select> <br>
+
+						<label for="Cust-End">End Position</label>
+							<select id="Cust-End">
+							</select> <br>
+					</div></li>
+				</ul>
+			</div>
+
+			<div id="sort" style="border:3px;display:inline-block;vertical-align:text-top;">
+				<ul><li style="display:inline-block; vertical-align:text-top;"><strong>Sort</strong></li></ul>
+				<ul>
+					<table>
+						<tr>
+							<td><label>Sort By Total Danger:</label></td>
+							<td><button type="button" onclick="changeSortID(1)"><strong>Click</strong></button></td>
+
+							<td><label>Sort By Symptoms:</label></td>
+							<td><button type="button" onclick="changeSortID(2)"><strong>Click</strong></button></td>
+						</tr>
+						<tr>
+							<td><label>Sort By Mortality:</label></td>
+							<td><button type="button" onclick="changeSortID(3)"><strong>Click</strong></button></td>
+						
+							<td><label>Sort By Complications:</label></td>
+							<td><button type="button" onclick="changeSortID(4)"><strong>Click</strong></button></td>
+						</tr>
+						<tr>
+							<td><label>Sort By Drug Resistance:</label></td>
+							<td><button type="button" onclick="changeSortID(5)"><strong>Click</strong></button></td>
+
+							<td><label>Sort By Danger to Children and Elderly:</label></td>
+							<td><button type="button" onclick="changeSortID(6)"><strong>Click</strong></button></td>
+						</tr>
+					</table>
+				</ul>
+			</div>
+		</div>
+		<div id="full-view"> 
+			<svg id="fv" width="988"  height="160" >
+				<use transform="scale(0.1,0.2)" xlink:href="#heat"/>
+			</svg>
+		</div>
+		<div id="heat-map" class="div-inline"></div>
+		<div id="stack-bar" class="div-inline"></div>
 
       <script type = "text/javascript">
-    var overallData;
-    var sortID = -1;
+	    var customStrain = "";
+		var numberOfEntriesTotal = 0;
+		var numberOfEntriesDisplayed;
+		
+		var overallData;
+		var sortID = -1;
+		var generation = -1;
       //var location = range(1, 1404);
-
+	  
+	  
+	  
+	  
+	  
+	  
+	  
       function strColor(s) {
         if (s == 'A')
           return 'blue';
@@ -169,9 +179,13 @@
         return 100; //sth is wrong
       }
 
-      var dataset = [ 100, 200,300,400, 500,600,700,800,900,1000,1100,1200,1300,1400 ];
+     // var dataset = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400];
+      var dataset = new Array(141);
+      for(var i = 0;i < dataset.length;i ++){
+          dataset[i] = i * 10;
+      }
 
-      var margin = { top: 100, right: 0, bottom: 100, left: 100 },
+      var margin = { top: 0, right: 0, bottom: 100, left: 100 },
       width = 800 - margin.left - margin.right,
       height = 800 - margin.top - margin.bottom,
       gridWidth = Math.floor(width / 100),
@@ -189,14 +203,11 @@
 
       color.domain(['Symptoms','Mortality','Complications','Drug_Resistance','At_Risk_Vulnerability']);
 
-
-
       var x = d3.scale.linear()
       .rangeRound([0, stack_width]);
 
       var y = d3.scale.ordinal()
       .rangeRoundBands([0, stack_height]);
-
 
       var xAxis = d3.svg.axis()
       .scale(x)
@@ -211,107 +222,158 @@
       .attr("width", width + margin.left+ margin.right)
       .attr("height",height + margin.top + margin.bottom)
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	  .attr("id","heat")
+      .attr("transform", "translate(" + margin.left + "," + (margin.top + 25) + ")");
 
       var svg_stack = d3.select("#stack-bar").append("svg")
       .attr("height", stack_height)
       .attr("width", "420")
       .attr("id", "d3-plot")
       .append("g")
-      .attr("transform", "translate(" + (margin.left / 3) + "," + (margin.top-25) + ")");
+      .attr("transform", "translate(" + (margin.left / 3) + "," + (margin.top ) + ")");
+	  
+	  var drag = d3.behavior.drag().on("drag", dragmove); 
+						
+		function dragmove(d) {	
+			d3.select(this)
+			  .attr("x", d.x=d3.event.x-40 )
+			  .attr("y", d.y=d3.event.y-20);
+			if (d3.event.x>=40 && d3.event.x<=948)
+			{
+			  d3.select("#heat")
+			    .attr("transform", "translate(" + (-d3.event.x) + "," + (0 ) + ")");
+			  d3.select("#fv")
+			    .attr("transform", "translate(" + 0.1*(d3.event.x) + "," + (0 ) + ")");
+			}
+			if (d3.event.y>=20&&d3.event.y<=140)
+			{
+			  d3.select("#heat")
+			    .attr("transform", "translate(" + (0) + "," + (-d3.event.y ) + ")");
+			  d3.select("#d3-plot")
+			    .attr("transform", "translate(" + (0) + "," + (-d3.event.y ) + ")");
+			  d3.select("#fv")
+			    .attr("transform", "translate(" + (0) + "," + 0.2*(d3.event.y ) + ")");
+			}
+      }
+		var rects = [{x:0, y:0}];
+		var frame = d3.select("#fv").append("svg")
+								.attr("width",988)
+								.attr("height",160);
+		
+			
+		frame.data(rects)
+			.append("rect")
+			.attr("x",function(d){ return d.x; })
+			.attr("y",function(d){ return d.y; })
+			.attr("width",80)
+			.attr("height",40)
+			.attr("fill-opacity",0.2)
+			.attr("fill","blue")
+			.call(drag); 
 
-    
-    
-    
-    
-    
-    
-    
-    function changeSortID(x)
-    {
-    sortID = x;
-    draw(overallData);
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    function updateIdLabels(data) {
-        var id_Labels = svg_heat.selectAll(".idLabel")
+			
+			
+			
+	  
+	  function changeSortID(x)
+	  {
+		sortID = x;
+		draw(overallData);
+	  }
+
+	  function updateIdLabels(data) {
+	      var id_Labels = svg_heat.selectAll(".idLabel")
          .data(data)
-         .text(function (d) { return d.Sequence_ID; })
+         .text(function (d) { numberOfEntriesDisplayed++; return d.Sequence_ID; })
 
-        id_Labels.enter()
+	      id_Labels.enter()
          .append("text")
          .attr("class", "idLabel")
-         .text(function (d) { return d.Sequence_ID; })
+         .text(function (d) {numberOfEntriesDisplayed++; return d.Sequence_ID;})
          .attr("x", 0)
          .attr("y", function (d, i) { return i * gridHeight; })
          .style("font-size", "12px")
          .style("text-anchor", "end")
          .attr("transform", "translate(-6," + gridHeight / 1.5 + ")");
 
-        id_Labels.exit().remove();
-        //debugger;
+	      id_Labels.exit().remove();
+	      //debugger;
 
-    }
+	  }
 
+	  function baseDisplayUpdate(data) {
+	      generation++;
+	      //cards
+	      data.forEach(function (d, i) {
+	          var cards = svg_heat.selectAll(".line" + i)
+              .data(d.Sequences)
+              .style("fill", function (d) {
+                  return strColor(d);
+              })
+              .attr("class", "line" + i + " generation" + generation);
 
+	          cards.enter().append("rect")
+              .attr("class", "line" + i + " generation" + generation)
+              .attr("x", function (d, j) {
+                  //debugger;
+                  return j * gridWidth;
+              })
+              .attr("y", function (d, j) {
+                  return i * gridHeight;
+              })
+              .attr("width", function (d, j) {
+                  //debugger;
+                  return gridWidth;
+              })
+              .attr("height", function (d, j) {
+                  return gridHeight;
+              })
+              .style("fill", function (d) {
+                  return strColor(d);
+              });
 
+	          cards.append("title")
+              .text(function (d, j) { return " " + d + " location: " + j; });
+	      });
 
+	      if (generation > 0) {
+	          oldbases = d3.selectAll(".generation" + (generation - 1)).remove();
+	      }
 
-    function draw(data) {
-        data = data.filter(filteringFunc).sort(sortSelector(sortID));
+	  }
 
-        var location_Labels = svg_heat.selectAll(".locationLabel")
+	  function changeOverAllDisplaySize()
+	  {
+		//multiply numberOfEntriesTotal/(numberOfEntriesDisplayed) and the height ration of the small window
+	  }
+	  
+	  function draw(data) {
+	      data = data.filter(filteringFunc).sort(sortSelector(sortID));
+				numberOfEntriesDisplayed = 0;
+							
+	      var location_Labels = svg_heat.selectAll(".locationLabel")
           .data(dataset)
           .enter().append("text")
-          .text(function (d) { return d; })
-          .style("font-size", gridHeight)
-          .attr("x", function (d, i) { return d * gridWidth; })
+          .text(function (d,i) { return 10 * i; })
+          .style("font-size", gridHeight + "px")
+          .attr("x", function (d, i) {
+              if (i != 10) {
+                  return i * 10 * gridWidth;
+              }
+              else {
+                  return 9.75 * 10 * gridWidth;
+              }
+          })
           .attr("y", 0)
           .style("text-anchor", "middle")
           .attr("transform", "translate(" + gridHeight / 2 + ", -6)");
 
 
-        updateIdLabels(data);
+	      updateIdLabels(data);
         //debugger;
-
+				
         //cards
-        data.forEach(function(d, i){
-          var cards = svg_heat.selectAll(".base")
-          .data(d.Sequences);
-
-          cards.enter().append("rect")
-          .attr("x", function (d, j) { 
-            //debugger;
-            return  j * gridWidth; 
-          })
-          .attr("y", function (d, j) {
-           return  i * gridHeight; 
-         })
-          .attr("width", function (d, j) { 
-            //debugger;
-            return  gridWidth; 
-          })
-          .attr("height", function (d, j) {
-           return  gridHeight; 
-         })
-          .style("fill", function (d) { 
-              return strColor(d); 
-          });
-
-          cards.append("title")
-          .text(function(d, j) { return " " + d +" location: " + j; });
-        });
-
-
-
+	      baseDisplayUpdate(data);
          //debugger;
          var min_val = d3.min(data, function(d) {
           // console.log(d.boxes["0"]);
@@ -325,24 +387,38 @@
           return d.boxes["4"].x1;
         });
 
+		
+		
+		
+		
+		
          x.domain([min_val, max_val]).nice();
          y.domain(data.map(function(d) { 
           return d.Sequence_ID; 
           })
          );
 
+		svg_stack.selectAll(".sequences").remove();
          var vakken = svg_stack.selectAll(".sequences")
          .data(data)
+		 .attr("width", function (d) { })
+		 
+	      vakken
          .enter()
          .append("g")
-         .attr("class", "bar")
-         .attr("width", function (d) {})
-         .attr("transform", function(d) { 
+         .attr("id", function (d, i) {
+             return "sequence:" + d.Sequence_ID;
+         })
+         .attr("class", "sequences")
+         .attr("width", function (d) { })
+         .attr("height", "13")
+         .attr("transform", function(d, i) { 
              //debugger;
-             return "translate(0," + y(d.Sequence_ID) + ")";
+             return "translate(0," + (i * 13 + 23) + ")";
+             //y.Sequence_ID(i);
           }
           );
-
+			
          var bars = vakken.selectAll("rect")
          .data(function(d) { return d.boxes; })
          .enter()
@@ -350,28 +426,36 @@
          .attr("class", "subbar");
 
          bars.append("rect")
-         .attr("height", y.rangeBand())
-         .attr("x", function(d) { return x(d.x0); })
-         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
+         //.attr("height", y.rangeBand())
+        .attr("height",13)
+         .attr("x", function(d) { return 20 * d.x0; })
+         .attr("width", function(d) { return (d.x1 - d.x0) * 20; })
          .style("fill", function(d) { return color(d.name); });
-
-         bars.append("text")
-         .attr("x", function(d) { return x(d.x0); })
-         .attr("y", y.rangeBand()/2)
-         .attr("dy", "0.5em")
-         .attr("dx", "0.5em")
-         .style("font" ,"10px sans-serif")
-         .style("text-anchor", "begin")
-         .text(function(d) { return d.n !== 0 && (d.x1-d.x0) > 3 ? d.n : "" });
-
-         vakken.insert("rect",":first-child")
-         .attr("height", y.rangeBand())
-         .attr("x", "1")
-         .attr("width", stack_width)
-         .attr("fill-opacity", "0.5")
-         .style("fill", "#ffffff")
-         .attr("class", function(d,index) { return index%2==0 ? "even" : "uneven"; });
-
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+         //bars.append("text")
+         //.attr("x", function(d) { return x(d.x0); })
+         //.attr("y", y.rangeBand()/2)
+         //.attr("dy", "0.5em")
+         //.attr("dx", "0.5em")
+         //.style("font" ,"10px sans-serif")
+         //.style("text-anchor", "begin")
+         //.text(function(d) { return d.n !== 0 && (d.x1-d.x0) > 3 ? d.n : "" });
 
           // svg_stack.append("g")
           // .attr("class", "x axis")
@@ -391,55 +475,21 @@
          var startp = svg_stack.append("g")
          .attr("class", "legendbox")
          .attr("id", "mylegendbox");
-  // this is not nice, we should calculate the bounding box and use that
-        //var legend_tabs = [25, 50, 75, 100, 125];
-        //var legend = startp.selectAll(".legend")
-        //.data(color.domain().slice())
-        //.enter()
-        //.append("g")
-        //.attr("class", "legend")
-        //.attr("transform", function(d, i) { 
-        //    //return "translate(" + legend_tabs[i] + ",-45)";
-        //    return "translate(" + (parseInt(vakken.select("rect").attr("width")) + 10) + "," + (legend_tabs[i]) + ")";
-        //});
+		 
+		 alert("done modifying");
 
-        //legend.append("rect")
-        //.attr("x", 0)
-        //.attr("width", 18)
-        //.attr("height", 18)
-        //.style("fill", color);
-
-        //legend.append("text")
-        //.attr("x", 22)
-        //.attr("y", 9)
-        //.attr("dy", ".35em")
-        //.style("text-anchor", "begin")
-        //.style("font" ,"10px sans-serif")
-        //.text(function(d) { return d; });
-
-        //d3.selectAll(".axis path")
-        //.style("fill", "none")
-        //.style("stroke", "#000")
-        //.style("shape-rendering", "crispEdges")
-
-        //d3.selectAll(".axis line")
-        //.style("fill", "none")
-        //.style("stroke", "#000")
-        //.style("shape-rendering", "crispEdges")
-
-        // var movesize = width/2 - startp.node().getBBox().width/2;
-        // d3.selectAll(".legendbox").attr("transform", "translate(" + movesize  + ",0)");
       }
 
 
 
 
 
-
-     d3.tsv("data/DiseaseCharacteristics.tsv", function(data2) {
-
+	  
+			
+     d3.tsv("data/DiseaseCharacteristics.tsv", function(data2) {	
         d3.json("data/strains.json", function(data1) {
           data2.forEach(function(d2) {
+			numberOfEntriesTotal++;
             data1.forEach(function(d1) {
               if(d1.id == d2.Sequence_ID) { 
                 d2['Sequences'] = d1.sequences;
@@ -465,162 +515,210 @@
                   };
                 });
                 }
+
               });
-  });
-    overallData = data2;
-    draw(data2);
-  });
-  });
+	});
+	
+		overallData = data2;
+		
+		
+		var idList = document.getElementById("Cust-ID");
+	
+		data2.forEach(function(d,i){
+			var newNumberListItem = document.createElement("option");
+			var numberListValue = document.createTextNode(d.Sequence_ID);
+			newNumberListItem.appendChild(numberListValue);
+			idList.appendChild(newNumberListItem);
+		})
+		
+		var startList = document.getElementById("Cust-Start");
+		var endList = document.getElementById("Cust-End");
+		for(var i = 0; i < 1404; i++)
+		{
+			var newNumberListItem = document.createElement("option");
+			var numberListValue = document.createTextNode(i);
+			newNumberListItem.appendChild(numberListValue);
+			startList.appendChild(newNumberListItem);
+		
+			newNumberListItem = document.createElement("option");
+			numberListValue = document.createTextNode(i);
+			newNumberListItem.appendChild(numberListValue);
+			endList.appendChild(newNumberListItem);
+		}
+	
+		
+		draw(data2);
+	});
+	});
+	
+	
+	//launch this function with a number indicating the kind of sort to get the sorting function
+	function sortSelector(number)
+	{
+		switch(number) {
+			case 1:
+				return totalDangerComp;
+			case 2:
+				return symptomsComp;
+			case 3:
+				return mortalityComp;
+			case 4:
+				return complicationsComp;
+			case 5:
+				return drug_resistanceComp;
+			case 6:
+				return vulnerabilityComp;
+			default:
+				return defaultFunc;
+		} ;
+	}
+	
+	function defaultFunc(a, b)
+	{
+		return 0;
+	}
+	
+	function totalDangerComp(a, b)
+	{
+		return totalDangerCalc(b) - totalDangerCalc(a);
+	}
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  //launch this function with a number indicating the kind of sort to get the sorting function
-  function sortSelector(number)
-  {
-    switch(number) {
-      case 1:
-        return totalDangerComp;
-      case 2:
-        return symptomsComp;
-      case 3:
-        return mortalityComp;
-      case 4:
-        return complicationsComp;
-      case 5:
-        return drug_resistanceComp;
-      case 6:
-        return vulnerabilityComp;
-      default:
-        return defaultFunc;
-    } ;
-  }
-  
-  function defaultFunc(a, b)
-  {
-    return 0;
-  }
-  
-  function totalDangerComp(a, b)
-  {
-    return totalDangerCalc(b) - totalDangerCalc(a);
-  }
+	function totalDangerCalc(x)
+	{
+		return x.Symptoms + x.Mortality + x.Complications + x.Drug_Resistance + x.At_Risk_Vulnerability;
+	}
 
-  function totalDangerCalc(x)
-  {
-    return x.Symptoms + x.Mortality + x.Complications + x.Drug_Resistance + x.At_Risk_Vulnerability;
-  }
+	function symptomsComp(a, b)
+	{
+		return b.Symptoms - a.Symptoms;
+	}
+	
+	function mortalityComp(a, b)
+	{
+		return b.Mortality - a.Mortality;
+	}
 
-  function symptomsComp(a, b)
-  {
-    return b.Symptoms - a.Symptoms;
-  }
-  
-  function mortalityComp(a, b)
-  {
-    return b.Mortality - a.Mortality;
-  }
+	function complicationsComp(a, b)
+	{
+		return b.Complications - a.Complications;
+	}
 
-  function complicationsComp(a, b)
-  {
-    return b.Complications - a.Complications;
-  }
-
-  function drug_resistanceComp(a, b)
-  {
-    return b.Drug_Resistance - a.Drug_Resistance;
-  }
-  
-  function vulnerabilityComp(a, b)
-  {
-    return b.Vulnerability - a.Vulnerability;
-  }
+	function drug_resistanceComp(a, b)
+	{
+		return b.Drug_Resistance - a.Drug_Resistance;
+	}
+	
+	function vulnerabilityComp(a, b)
+	{
+		return b.Vulnerability - a.Vulnerability;
+	}
   
   
   
-  
-  
-  
-  
-    //filtering functions: when filter button is clicked, redraw the display utializing selection.filter(filteringFunc(d))
-  //d must contain both the sequence and all the attributes.
+  	//filtering functions: when filter button is clicked, redraw the display utializing selection.filter(filteringFunc(d))
+	//d must contain both the sequence and all the attributes.
   function filteringFunc(d)
   {
-  return checkSymptoms(d) && checkMortality(d) && checkComplications(d) && checkDrug_Resistance(d) && checkAt_Risk_Vulnerability(d);
+	return checkSymptoms(d) && checkMortality(d) && checkComplications(d) && checkDrug_Resistance(d) && checkAt_Risk_Vulnerability(d) && checkCustomStrain(d);
   }
   
   function checkSymptoms(d)
   {
-  return  (d.Symptoms == 1 && d3.select("#S-Mild").property("checked"))||
-      (d.Symptoms == 2 && d3.select("#S-Moderate").property("checked"))||
-      (d.Symptoms == 3 && d3.select("#S-Severe").property("checked"));
+	return 	(d.Symptoms == 1 && d3.select("#S-Mild").property("checked"))||
+			(d.Symptoms == 2 && d3.select("#S-Moderate").property("checked"))||
+			(d.Symptoms == 3 && d3.select("#S-Severe").property("checked"));
   }
   
   function checkMortality(d)
   {
-  return  (d.Mortality == 1 && d3.select("#M-Low").property("checked"))||
-      (d.Mortality == 2 && d3.select("#M-Medium").property("checked"))||
-      (d.Mortality == 3 && d3.select("#M-High").property("checked"));
+	return 	(d.Mortality == 1 && d3.select("#M-Low").property("checked"))||
+			(d.Mortality == 2 && d3.select("#M-Medium").property("checked"))||
+			(d.Mortality == 3 && d3.select("#M-High").property("checked"));
   }
   
   function checkComplications(d)
   {
-  return  (d.Complications == 1 && d3.select("#C-Minor").property("checked"))||
-      (d.Complications == 2 && d3.select("#C-Major").property("checked"));
+	return 	(d.Complications == 1 && d3.select("#C-Minor").property("checked"))||
+			(d.Complications == 2 && d3.select("#C-Major").property("checked"));
   }
   
   function checkDrug_Resistance(d)
   {
-  return  (d.Drug_Resistance == 1 && d3.select("#D-Susceptible").property("checked"))||
-      (d.Drug_Resistance == 2 && d3.select("#D-Intermediate").property("checked"))||
-      (d.Drug_Resistance == 3 && d3.select("#D-Resistant").property("checked"));
+	return 	(d.Drug_Resistance == 1 && d3.select("#D-Susceptible").property("checked"))||
+			(d.Drug_Resistance == 2 && d3.select("#D-Intermediate").property("checked"))||
+			(d.Drug_Resistance == 3 && d3.select("#D-Resistant").property("checked"));
   }
   
   function checkAt_Risk_Vulnerability(d)
   {
-  return  (d.At_Risk_Vulnerability == 1 && d3.select("#V-Low").property("checked"))||
-      (d.At_Risk_Vulnerability == 2 && d3.select("#V-Medium").property("checked"))||
-      (d.At_Risk_Vulnerability == 3 && d3.select("#V-High").property("checked"));
+	return 	(d.At_Risk_Vulnerability == 1 && d3.select("#V-Low").property("checked"))||
+			(d.At_Risk_Vulnerability == 2 && d3.select("#V-Medium").property("checked"))||
+			(d.At_Risk_Vulnerability == 3 && d3.select("#V-High").property("checked"));
   }
+  
+  
+
+  function findStrain(strainID)
+  {
+	overallData.forEach(function(x,i){
+		if(x.Sequence_ID == strainID)
+		{
+			customStrain = x;
+			return x.Sequences;
+		}
+	})
+	
+	return "";
+  }
+  
+  
+  
   
   function checkCustomStrain(d)
   {
-  //needs to hold the strain as a string(values would be nice, but would require change)
-  var strain = overAllDataArray[d3.select("#Cust-ID").value];
-  var start = parseInt(d3.select("#Cust-Start").value);
-  var end = parseInt(d3.select("#Cust-End").value);
-  
-  //if the start value is greater than end value, switch them
-  if(start > end)
-  {
-    start += end;
-    end = start - end;
-    start -= end;
-  }
-  
-  var i;
-  //includes end value
-  for(i = start; i <= end; i++)
-  {
-    if(strain.charAt(i) != d.charAt(i))
-    {
-      return false;
-    }
-  }
-  
-  return true;
+	if(!d3.select("#Custom").property("checked"))
+	{
+		return true;
+	}
+	
+
+	//needs to hold the strain as a string(values would be nice, but would require change)
+	var strainID = document.getElementById("Cust-ID").value;
+	var strain;
+	
+	if(customStrain == "" || customStrain.Sequence_ID != strainID)
+	{
+		strain = findStrain(strainID);
+	}
+	else
+	{
+		strain = customStrain.Sequences;
+	
+	}
+	
+	var start = parseInt(document.getElementById("Cust-Start").value);
+	var end = parseInt(document.getElementById("Cust-End").value);
+	
+	//if the start value is greater than end value, switch them
+	if(start > end)
+	{
+		start += end;
+		end = start - end;
+		start -= end;
+	}
+	
+	var i;
+	//includes end value
+	for(i = start; i <= end; i++)
+	{
+		if(strain.charAt(i) != d.Sequences.charAt(i))
+		{
+			return false;
+		}
+	}
+	
+	return true;
   }
     </script>
-  </body>
-  </html>
+	</body>
+	</html>

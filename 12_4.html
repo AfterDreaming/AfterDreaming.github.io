@@ -25,9 +25,8 @@
 
       </style>
       <meta charset="utf-8">
-      <title>DISEASE STRAIN MUTATION ANALYSIS</title>
+      <title>Data Visulization Dev</title>
       <link rel="stylesheet" href="normalize.css">
-       <link rel="stylesheet" href="stylesheet/style.css">
       <script src="js/d3.min.js"></script>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -35,127 +34,116 @@
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
     <body>
-		<div>
-			<center><h1><strong>DISEASE STRAIN MUTATION ANALYSIS</strong></h1> by group 502:BadGateway</center>
-		</div>
-		<div>
-			<button type="button" data-toggle="collapse" data-target="#sortnfilter" style="margin-left:50px">Sorting and Filtering Options</button>
-			<div id="sortnfilter" class="collapse">	
-				<div id="filter" style="border:3px; display:inline-block;vertical-align:text-top;">
-					<ul><li style="display:inline-block; vertical-align:text-top;"><button type="button"  onclick="draw(overallData)"><strong>Filter</strong></button></li></ul>
-					<ul>
-						<li style="display:inline-block; vertical-align:text-top;"><div id="symptoms" >
-							<label><strong>Symptoms</strong></label><br>
-							<label for="S-Severe">Severe</label><input type="checkbox" checked id="S-Severe"> <br>
+		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#sortnfilter">Sorting and Filtering Options</button>
+		<div id="sortnfilter" class="collapse">	
+			<div id="filter" style="border:3px; display:inline-block;vertical-align:text-top;">
+				<ul><li style="display:inline-block; vertical-align:text-top;"><button type="button" onclick="draw(overallData)"><strong>Filter</strong></button></li></ul>
+				<ul>
+					<li style="display:inline-block; vertical-align:text-top;"><div id="symptoms" >
+						<label><strong>Symptoms</strong></label><br>
+						<label for="S-Severe">Severe</label><input type="checkbox" checked id="S-Severe"> <br>
 
-							<label for="S-Moderate">Moderate</label><input type="checkbox" checked id="S-Moderate"> <br>
+						<label for="S-Moderate">Moderate</label><input type="checkbox" checked id="S-Moderate"> <br>
 
-							<label for="S-Mild">Mild</label><input type="checkbox" checked id="S-Mild">
-						</div></li>
+						<label for="S-Mild">Mild</label><input type="checkbox" checked id="S-Mild">
+					</div></li>
 
 
-						<li style="display:inline-block; vertical-align: text-top;"><div id="Mortality">
-							<label><strong>Mortality</strong></label><br>
-							<label for="M-High">High</label><input type="checkbox" checked id="M-High"> <br>
-																	
-							<label for="M-Medium">Medium</label><input type="checkbox" checked id="M-Medium"> <br>
-																  
-							<label for="M-Low">Low</label><input type="checkbox" checked id="M-Low">          
-						</div></li>
-							
-							
-						<li style="display:inline-block; vertical-align: text-top;"><div id="Complications">
-							<label><strong>Complications</strong></label><br>
-							<label for="C-Major">Major</label><input type="checkbox" checked id="C-Major"> <br>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Mortality">
+						<label><strong>Mortality</strong></label><br>
+						<label for="M-High">High</label><input type="checkbox" checked id="M-High"> <br>
+																
+						<label for="M-Medium">Medium</label><input type="checkbox" checked id="M-Medium"> <br>
+															  
+						<label for="M-Low">Low</label><input type="checkbox" checked id="M-Low">          
+					</div></li>
+						
+						
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Complications">
+						<label><strong>Complications</strong></label><br>
+						<label for="C-Major">Major</label><input type="checkbox" checked id="C-Major"> <br>
 
-							<label for="C-Minor">Minor</label><input type="checkbox" checked id="C-Minor"> <br>
-						</div></li>
-
-
-						<li style="display:inline-block; vertical-align: text-top;"><div id="Drug_Resistance">
-							<label><strong>Drug Resistance</strong></label><br>
-							<label for="D-Resistant">Resistant</label><input type="checkbox" checked id="D-Resistant"> <br>
-
-							<label for="D-Intermediate">Intermediate</label><input type="checkbox" checked id="D-Intermediate"> <br>
-
-							<label for="D-Susceptible">Susceptible</label><input type="checkbox" checked id="D-Susceptible"> <br>
-						</div></li>
+						<label for="C-Minor">Minor</label><input type="checkbox" checked id="C-Minor"> <br>
+					</div></li>
 
 
-						<li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
-							<label><strong>Vulnerability</strong></label><br>
-							<label for="V-High">High</label><input type="checkbox" checked id="V-High"> <br>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Drug_Resistance">
+						<label><strong>Drug Resistance</strong></label><br>
+						<label for="D-Resistant">Resistant</label><input type="checkbox" checked id="D-Resistant"> <br>
 
-							<label for="V-Medium">Medium</label><input type="checkbox" checked id="V-Medium"> <br>
+						<label for="D-Intermediate">Intermediate</label><input type="checkbox" checked id="D-Intermediate"> <br>
 
-							<label for="V-Low">Low</label><input type="checkbox" checked id="V-Low"> <br>
-						</div></li>
+						<label for="D-Susceptible">Susceptible</label><input type="checkbox" checked id="D-Susceptible"> <br>
+					</div></li>
 
-						<li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
-							<label for="Custom"><strong>Custom Filter by Gene Sequence</strong></label><input type="checkbox" id="Custom"> <br>
-							<label for="Cust-ID">Strain ID</label>
-								<select id="Cust-ID">
-								</select> <br>
 
-							<label for="Cust-Start">First End Point</label>
-								<select id="Cust-Start">
-								</select> <br>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
+						<label><strong>Vulnerability</strong></label><br>
+						<label for="V-High">High</label><input type="checkbox" checked id="V-High"> <br>
 
-							<label for="Cust-End">Second End Point</label>
-								<select id="Cust-End">
-								</select> <br>
-						</div></li>
-					</ul>
-				</div>
+						<label for="V-Medium">Medium</label><input type="checkbox" checked id="V-Medium"> <br>
 
-				<div id="sort" style="border:3px;display:inline-block;vertical-align:text-top;">
-					<ul><li style="display:inline-block; vertical-align:text-top;"><strong>Sort</strong></li></ul>
-					<ul>
-						<table>
-							<tr>
-								<td><label>Sort By Total Danger:</label></td>
-								<td><button  type="button" onclick="changeSortID(1)"><strong>Click</strong></button></td>
+						<label for="V-Low">Low</label><input type="checkbox" checked id="V-Low"> <br>
+					</div></li>
 
-								<td><label>Sort By Symptoms:</label></td>
-								<td><button  type="button" onclick="changeSortID(2)"><strong>Click</strong></button></td>
-							</tr>
-							<tr>
-								<td><label>Sort By Mortality:</label></td>
-								<td><button  type="button" onclick="changeSortID(3)"><strong>Click</strong></button></td>
-							
-								<td><label>Sort By Complications:</label></td>
-								<td><button  type="button" onclick="changeSortID(4)"><strong>Click</strong></button></td>
-							</tr>
-							<tr>
-								<td><label>Sort By Drug Resistance:</label></td>
-								<td><button  type="button" onclick="changeSortID(5)"><strong>Click</strong></button></td>
+					<li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
+						<label for="Custom"><strong>Custom Filter by Gene Sequence</strong></label><input type="checkbox" id="Custom"> <br>
+						<label for="Cust-ID">Strain ID</label>
+							<select id="Cust-ID">
+							</select> <br>
 
-								<td><label>Sort By Danger to Children and Elderly:</label></td>
-								<td><button  type="button" onclick="changeSortID(6)"><strong>Click</strong></button></td>
-							</tr>
-						</table>
-					</ul>
-				</div>
+						<label for="Cust-Start">Start Position</label>
+							<select id="Cust-Start">
+							</select> <br>
+
+						<label for="Cust-End">End Position</label>
+							<select id="Cust-End">
+							</select> <br>
+					</div></li>
+				</ul>
 			</div>
-		<div>
-        <div id="parent" style="width:100%">
-            <div id="heat-map" class="left" style="margin-left:50px; width:50%;"></div>
-            <div id="stack-bar" class="right" style="width:20%;"></div>
-            <div id="legend" class="right" style="width:10%;">
-                    <svg id="fv" style="float: right;"  ></svg>
-            </div>
 
-        </div>
-		
+			<div id="sort" style="border:3px;display:inline-block;vertical-align:text-top;">
+				<ul><li style="display:inline-block; vertical-align:text-top;"><strong>Sort</strong></li></ul>
+				<ul>
+					<table>
+						<tr>
+							<td><label>Sort By Total Danger:</label></td>
+							<td><button type="button" onclick="changeSortID(1)"><strong>Click</strong></button></td>
 
-	    
-        
-	
+							<td><label>Sort By Symptoms:</label></td>
+							<td><button type="button" onclick="changeSortID(2)"><strong>Click</strong></button></td>
+						</tr>
+						<tr>
+							<td><label>Sort By Mortality:</label></td>
+							<td><button type="button" onclick="changeSortID(3)"><strong>Click</strong></button></td>
+						
+							<td><label>Sort By Complications:</label></td>
+							<td><button type="button" onclick="changeSortID(4)"><strong>Click</strong></button></td>
+						</tr>
+						<tr>
+							<td><label>Sort By Drug Resistance:</label></td>
+							<td><button type="button" onclick="changeSortID(5)"><strong>Click</strong></button></td>
+
+							<td><label>Sort By Danger to Children and Elderly:</label></td>
+							<td><button type="button" onclick="changeSortID(6)"><strong>Click</strong></button></td>
+						</tr>
+					</table>
+				</ul>
+			</div>
+		</div>
+		<div id="full-view"> 
+			<svg id="fv" width="988"  height="160" >
+				<use transform="scale(0.1,0.2)" xlink:href="#heat"/>
+			</svg>
+		</div>
+		<div id="heat-map" class="div-inline"></div>
+		<div id="stack-bar" class="div-inline"></div>
+
       <script type = "text/javascript">
 	    var customStrain = "";
 		var numberOfEntriesTotal = 0;
 		var numberOfEntriesDisplayed;
-		var notSameColumns;
 		
 		var overallData;
 		var sortID = -1;
@@ -170,7 +158,7 @@
 	  
       function strColor(s) {
         if (s == 'A')
-          return 'orange';
+          return 'blue';
         if (s == 'T')
           return 'yellow';
         if (s == 'G')
@@ -187,7 +175,7 @@
           return 2;
         if (s == "Severe"||s =="High" || s == "Resistant")
           return 3;
-          
+
         return 100; //sth is wrong
       }
 
@@ -199,9 +187,9 @@
 
       var margin = { top: 0, right: 0, bottom: 100, left: 100 },
       width = 800 - margin.left - margin.right,
-      height = 620 - margin.top - margin.bottom,
-      gridWidth = Math.floor(width / 50),
-      gridHeight = 10,
+      height = 800 - margin.top - margin.bottom,
+      gridWidth = Math.floor(width / 100),
+      gridHeight = 13,
       legendElementWidth = gridHeight*2;
 
 
@@ -235,62 +223,45 @@
       .attr("height",height + margin.top + margin.bottom)
       .append("g")
 	  .attr("id","heat")
-      .attr("transform", "translate(" + 0 + "," + (margin.top + 25) + ")");
+      .attr("transform", "translate(" + margin.left + "," + (margin.top + 25) + ")");
 
       var svg_stack = d3.select("#stack-bar").append("svg")
       .attr("height", stack_height)
       .attr("width", "420")
       .attr("id", "d3-plot")
       .append("g")
-      .attr("transform", "translate(" + (margin.left / 3) + "," + (margin.top) + ")");
+      .attr("transform", "translate(" + (margin.left / 3) + "," + (margin.top ) + ")");
 	  
+	  var drag = d3.behavior.drag().on("drag", dragmove); 
+						
+		function dragmove(d) {	
+			d3.select(this)
+			  .attr("x", d.x=d3.event.x-40 )
+			  .attr("y", d.y=d3.event.y-20);
+			if (d3.event.x>=20&&d3.event.x<=968)
+			  d3.select("#heat")
+			    .attr("transform", "translate(" + (-d3.event.x) + "," + (0 ) + ")");
+			if (d3.event.y>=10&&d3.event.y<=150)
+			  d3.select("#heat")
+			    .attr("transform", "translate(" + (0) + "," + (-d3.event.y ) + ")");
+      }
+		var rects = [{x:0, y:0}];
+		var frame = d3.select("#fv").append("svg")
+								.attr("width",988)
+								.attr("height",160);
 		
+			
+		frame.data(rects)
+			.append("rect")
+			.attr("x",function(d){ return d.x; })
+			.attr("y",function(d){ return d.y; })
+			.attr("width",80)
+			.attr("height",40)
+			.attr("fill-opacity",0.2)
+			.attr("fill","blue")
+			.call(drag); 
 
-		function addLegend() {
-	      var svg_legend = d3.select("#legend")
-            .append("svg")
-            .attr("width", "200")
-            .attr("height", stack_height/3)
-            .attr("id","svg_legend")
-            .attr("transform", "translate(" + 0 + "," + (margin.top + 25) + ")");
-
-	      var startp = d3.select("#svg_legend").append("g")
-          .attr("class", "legendbox")
-          .attr("id", "mylegendbox")
-          .attr("transform", "translate(" + 0 + "," + (0) + ")");
-	      // this is not nice, we should calculate the bounding box and use that
-	      var legend_tabs = [0, 25, 50, 75, 100];
-	      var legend = startp.selectAll(".legend")
-          .data(color.domain().slice())
-          .enter()
-          .append("g")
-          .attr("class", "legend")
-          .attr("transform", function (d, i) {
-              return "translate(" + 0 + "," + legend_tabs[i] + ")";
-          });
-
-	      legend.append("rect")
-          .attr("x", 0)
-          .attr("width", 18)
-          .attr("height", 18)
-          .style("fill", color);
-
-	      legend.append("text")
-          .attr("x", 22)
-          .attr("y", 9)
-          .attr("dy", ".35em")
-          .style("text-anchor", "begin")
-          .style("font", "10px sans-serif")
-          .text(function (d) {
-              if (d == "At_Risk_Vulnerability") {
-                  return "Danger to Children and Elderly";
-              }
-              else if (d == "Drug_Resistance") {
-                  return "Drug Resistance";
-              }
-              return d;
-          });
-	  }
+			
 			
 			
 	  
@@ -301,7 +272,7 @@
 	  }
 
 	  function updateIdLabels(data) {
-	      var id_Labels = svg_stack.selectAll(".idLabel")
+	      var id_Labels = svg_heat.selectAll(".idLabel")
          .data(data)
          .text(function (d) { numberOfEntriesDisplayed++; return d.Sequence_ID; })
 
@@ -310,7 +281,7 @@
          .attr("class", "idLabel")
          .text(function (d) {numberOfEntriesDisplayed++; return d.Sequence_ID;})
          .attr("x", 0)
-         .attr("y", function (d, i) { return i * gridHeight + 26; })
+         .attr("y", function (d, i) { return i * gridHeight; })
          .style("font-size", "12px")
          .style("text-anchor", "end")
          .attr("transform", "translate(-6," + gridHeight / 1.5 + ")");
@@ -324,7 +295,6 @@
 	      generation++;
 	      //cards
 	      data.forEach(function (d, i) {
-			var sequenceId = d.Sequence_ID;
 	          var cards = svg_heat.selectAll(".line" + i)
               .data(d.Sequences)
               .style("fill", function (d) {
@@ -332,9 +302,6 @@
               })
               .attr("class", "line" + i + " generation" + generation);
 
-			  cards.select("title")
-				.text(function (d, j) {return " " + d + ", location: " + notSameColumns[j] + ", Strain ID: " + sequenceId; });
-			  
 	          cards.enter().append("rect")
               .attr("class", "line" + i + " generation" + generation)
               .attr("x", function (d, j) {
@@ -353,87 +320,18 @@
               })
               .style("fill", function (d) {
                   return strColor(d);
-              })
-			  .append("title")
-              .text(function (d, j) {return " " + d + ", location: " + notSameColumns[j] + ", Strain ID: " + sequenceId; });
-	      });
-
-	      if (generation > 0) {
-	          oldbases = d3.selectAll(".generation" + (generation - 1)).remove();
-	      }
-
-	  }
-	  
-	  function updateFullView(data,width,length) {
-	      var gridWidth = 1.0 * width / data[0].Sequences.length;
-	      var gridHeight = 1.0 * length / numberOfEntriesDisplayed;
-	      //cards
-	      data.forEach(function (d, i) {
-	          var sequenceId = d.Sequence_ID;
-	          var cards = d3.select("#fv").selectAll("._line" + i)
-              .data(d.Sequences)
-              .style("fill", function (d) {
-                  return strColor(d);
-              })
-              .attr("class", "_line" + i + " generation" + generation);
-
-	          cards.enter().append("rect")
-              .attr("class", "_line" + i + " generation" + generation)
-              .attr("x", function (d, j) {
-                  //debugger;
-                  return j * gridWidth + 100;
-              })
-              .attr("y", function (d, j) {
-                  return i * gridHeight;
-              })
-              .attr("width", function (d, j) {
-                  //debugger;
-                  return gridWidth;
-              })
-              .attr("height", function (d, j) {
-                  return gridHeight;
-              })
-              .style("fill", function (d) {
-                  return strColor(d);
               });
+
+	          cards.append("title")
+              .text(function (d, j) { return " " + d + " location: " + j; });
 	      });
-			
-			
-		function dragmove(d) {	
-		if (d3.event.y>=10&&d3.event.y<=length-10)
-			d3.select(this)
-			  .attr("y", d.y=d3.event.y-20),
-			  d3.select("#heat")
-			    .attr("transform", "translate(" + (0) + "," + (-d3.event.y + 25) + ")"),
-			  d3.select("#d3-plot")
-				.attr("transform", "translate(" + (0) + "," + (-d3.event.y ) + ")");
-      }
-	  var drag = d3.behavior.drag().on("drag", dragmove); 
-						
-		
-		var rects = [{x:width, y:00}];
-		var frame = d3.select("#fv").append("svg")
-								.attr("width",300)
-								.attr("height",150);
-		
-			
-		frame.data(rects)
-			.append("rect")
-			.attr("x",function(d){ return d.x; })
-			.attr("y",function(d){ return d.y; })
-			.attr("width",width)
-			.attr("height",40)
-			.attr("fill-opacity",0.2)
-			.attr("fill","blue")
-			.call(drag); 
-			
-			
+
 	      if (generation > 0) {
 	          oldbases = d3.selectAll(".generation" + (generation - 1)).remove();
 	      }
-		  
+
 	  }
-	  
+
 	  function changeOverAllDisplaySize()
 	  {
 		//multiply numberOfEntriesTotal/(numberOfEntriesDisplayed) and the height ration of the small window
@@ -443,22 +341,22 @@
 	      data = data.filter(filteringFunc).sort(sortSelector(sortID));
 				numberOfEntriesDisplayed = 0;
 							
-	      //var location_Labels = svg_heat.selectAll(".locationLabel")
-          //.data(dataset)
-          //.enter().append("text")
-          //.text(function (d,i) { return 10 * i; })
-          //.style("font-size", gridHeight + "px")
-          //.attr("x", function (d, i) {
-          //    if (i != 10) {
-          //        return i * 10 * gridWidth;
-          //    }
-          //    else {
-          //        return 9.75 * 10 * gridWidth;
-          //    }
-          //})
-          //.attr("y", 0)
-          //.style("text-anchor", "middle")
-          //.attr("transform", "translate(" + gridHeight / 2 + ", -6)");
+	      var location_Labels = svg_heat.selectAll(".locationLabel")
+          .data(dataset)
+          .enter().append("text")
+          .text(function (d,i) { return 10 * i; })
+          .style("font-size", gridHeight + "px")
+          .attr("x", function (d, i) {
+              if (i != 10) {
+                  return i * 10 * gridWidth;
+              }
+              else {
+                  return 9.75 * 10 * gridWidth;
+              }
+          })
+          .attr("y", 0)
+          .style("text-anchor", "middle")
+          .attr("transform", "translate(" + gridHeight / 2 + ", -6)");
 
 
 	      updateIdLabels(data);
@@ -466,8 +364,6 @@
 				
         //cards
 	      baseDisplayUpdate(data);
-		  
-		  updateFullView(data,100,150);
          //debugger;
          var min_val = d3.min(data, function(d) {
           // console.log(d.boxes["0"]);
@@ -505,10 +401,10 @@
          })
          .attr("class", "sequences")
          .attr("width", function (d) { })
-         .attr("height", gridHeight)
+         .attr("height", "13")
          .attr("transform", function(d, i) { 
              //debugger;
-             return "translate(0," + (i * gridHeight + 23) + ")";
+             return "translate(0," + (i * 13 + 23) + ")";
              //y.Sequence_ID(i);
           }
           );
@@ -521,7 +417,7 @@
 
          bars.append("rect")
          //.attr("height", y.rangeBand())
-        .attr("height",gridHeight)
+        .attr("height",13)
          .attr("x", function(d) { return 20 * d.x0; })
          .attr("width", function(d) { return (d.x1 - d.x0) * 20; })
          .style("fill", function(d) { return color(d.name); });
@@ -570,19 +466,17 @@
          .attr("class", "legendbox")
          .attr("id", "mylegendbox");
 		 
-		 //alert("done modifying");
+		 alert("done modifying");
 
       }
-		
-
-	
 
 
-	  d3.json("data/NotSameColumns.json", function (data) {
-	      notSameColumns = data;
-	  })
+
+
+
+	  
 			
-	  d3.tsv("data/DiseaseCharacteristics.tsv", function (data2) {
+     d3.tsv("data/DiseaseCharacteristics.tsv", function(data2) {	
         d3.json("data/strains.json", function(data1) {
           data2.forEach(function(d2) {
 			numberOfEntriesTotal++;
@@ -629,22 +523,21 @@
 		
 		var startList = document.getElementById("Cust-Start");
 		var endList = document.getElementById("Cust-End");
-		for(var i = 0; i < notSameColumns.length; i++)
+		for(var i = 0; i < 1404; i++)
 		{
 			var newNumberListItem = document.createElement("option");
-			var numberListValue = document.createTextNode(notSameColumns[i]);
+			var numberListValue = document.createTextNode(i);
 			newNumberListItem.appendChild(numberListValue);
 			startList.appendChild(newNumberListItem);
 		
 			newNumberListItem = document.createElement("option");
-			numberListValue = document.createTextNode(notSameColumns[i]);
+			numberListValue = document.createTextNode(i);
 			newNumberListItem.appendChild(numberListValue);
 			endList.appendChild(newNumberListItem);
 		}
 	
 		
 		draw(data2);
-		addLegend() ;
 	});
 	});
 	
@@ -793,8 +686,8 @@
 	
 	}
 	
-	var start = notSameColumns.indexOf(parseInt(document.getElementById("Cust-Start").value));
-	var end = notSameColumns.indexOf(parseInt(document.getElementById("Cust-End").value));
+	var start = parseInt(document.getElementById("Cust-Start").value);
+	var end = parseInt(document.getElementById("Cust-End").value);
 	
 	//if the start value is greater than end value, switch them
 	if(start > end)
@@ -816,8 +709,6 @@
 	
 	return true;
   }
-  
-
     </script>
 	</body>
 	</html>

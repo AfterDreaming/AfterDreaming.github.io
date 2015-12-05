@@ -139,8 +139,7 @@
 
 
 <script>
-
-	//launch this function with a number indicating the kind of sort to get the sorting function
+  	//launch this function with a number indicating the kind of sort to get the sorting function
 	function sortSelector(number)
 	{
 		switch(number) {
@@ -158,17 +157,17 @@
 				return vulnerabilityComp;
 			default:
 				return defaultFunc;
-} 
+		} ;
 	}
 	
-	var defaultFunc(a, b)
+	function defaultFunc(a, b)
 	{
 		return 0;
 	}
 	
-	var totalDangerComp = function (a, b)
+	function totalDangerComp(a, b)
 	{
-		return totalDangerCalc(a) - totalDangerCalc(a);
+		return totalDangerCalc(b) - totalDangerCalc(a);
 	}
 
 	function totalDangerCalc(x)
@@ -176,34 +175,38 @@
 		return x.Symptoms + x.Mortality + x.Complications + x.Drug_Resistance + x.At_Risk_Vulnerability;
 	}
 
-	var symptomsComp = function (a, b)
+	function symptomsComp(a, b)
 	{
 		return b.Symptoms - a.Symptoms;
 	}
 	
-	var mortalityComp = function (a, b)
+	function mortalityComp(a, b)
 	{
 		return b.Mortality - a.Mortality;
 	}
 
-	var complicationsComp = function (a, b)
+	function complicationsComp(a, b)
 	{
 		return b.Complications - a.Complications;
 	}
 
-	var drug_resistanceComp = function(a, b)
+	function drug_resistanceComp(a, b)
 	{
 		return b.Drug_Resistance - a.Drug_Resistance;
 	}
 	
-	var vulnerabilityComp = function (a, b)
+	function vulnerabilityComp(a, b)
 	{
 		return b.Vulnerability - a.Vulnerability;
 	}
 	
-	
-	
-	//filtering functions: when filter button is clicked, redraw the display utializing selection.filter(filteringFunc(d))
+  
+  
+  
+  
+  
+  
+  	//filtering functions: when filter button is clicked, redraw the display utializing selection.filter(filteringFunc(d))
 	//d must contain both the sequence and all the attributes.
   function filteringFunc(d)
   {
@@ -241,7 +244,7 @@
   {
 	return 	(d.At_Risk_Vulnerability == 1 && d3.select("#V-Low").property("checked"))||
 			(d.At_Risk_Vulnerability == 2 && d3.select("#V-Medium").property("checked"))||
-			(d.At_Risk_Vulnerabil/ity == 3 && d3.select("#V-High").property("checked"));
+			(d.At_Risk_Vulnerability == 3 && d3.select("#V-High").property("checked"));
   }
   
   function checkCustomStrain(d)

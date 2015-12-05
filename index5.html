@@ -27,7 +27,6 @@
       <meta charset="utf-8">
       <title>DISEASE STRAIN MUTATION ANALYSIS</title>
       <link rel="stylesheet" href="normalize.css">
-       <link rel="stylesheet" href="stylesheet/style.css">
       <script src="js/d3.min.js"></script>
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -83,7 +82,7 @@
 
 
 						<li style="display:inline-block; vertical-align: text-top;"><div id="Vulnerability">
-							<label><strong>Vulnerability</strong></label><br>
+							<label><strong>Danger to Weak</strong></label><br>
 							<label for="V-High">High</label><input type="checkbox" checked id="V-High"> <br>
 
 							<label for="V-Medium">Medium</label><input type="checkbox" checked id="V-Medium"> <br>
@@ -138,19 +137,24 @@
 				</div>
 			</div>
 		<div>
-        <div id="parent" style="width:100%">
-            <div id="heat-map" class="left" style="margin-left:50px; width:50%;"></div>
-            <div id="stack-bar" class="right" style="width:20%;"></div>
-            <div id="legend" class="right" style="width:10%;">
-                    <svg id="fv" style="float: right;"  ></svg>
-            </div>
-
-        </div>
 		
 
-	    
-        
-	
+		<div id="heat-map" class="div-inline" style="margin-left:50px"></div>
+		<div id="stack-bar" class="div-inline"></div>
+		<div id="legend" class=" div-inline"></div>
+	<!--	<div id="full-view"> 
+			<svg id="fv" width="1200"  height="160" >
+				<use transform="scale(0.1,0.2)" xlink:href="#heat"/>
+			</svg>
+		</div>
+        <div id=" heat-y-axis" class="div-inline">
+            <svg id="y_axis" width="50" height="800">
+
+            </svg>
+             
+        </div>
+	-->	
+		
       <script type = "text/javascript">
 	    var customStrain = "";
 		var numberOfEntriesTotal = 0;
@@ -244,13 +248,34 @@
       .append("g")
       .attr("transform", "translate(" + (margin.left / 3) + "," + (margin.top) + ")");
 	  
+	  var drag = d3.behavior.drag().on("drag", dragmove); 
+						
+		function dragmove(d) {	
+			d3.select(this)
+			  .attr("x", d.x=d3.event.x-40 )
+			  .attr("y", d.y=d3.event.y-20);
+      }
+		var rects = [{x:60, y:100}];
+		var frame = d3.select("#fv").append("svg")
+								.attr("width",1200)
+								.attr("height",160);
 		
+			
+		frame.data(rects)
+			.append("rect")
+			.attr("x",function(d){ return d.x; })
+			.attr("y",function(d){ return d.y; })
+			.attr("width",80)
+			.attr("height",40)
+			.attr("fill-opacity",0.2)
+			.attr("fill","blue")
+			.call(drag); 
 
 		function addLegend() {
 	      var svg_legend = d3.select("#legend")
             .append("svg")
             .attr("width", "200")
-            .attr("height", stack_height/3)
+            .attr("height", stack_height)
             .attr("id","svg_legend")
             .attr("transform", "translate(" + 0 + "," + (margin.top + 25) + ")");
 
@@ -363,77 +388,7 @@
 	      }
 
 	  }
-	  
-	  function updateFullView(data,width,length) {
-	      var gridWidth = 1.0 * width / data[0].Sequences.length;
-	      var gridHeight = 1.0 * length / numberOfEntriesDisplayed;
-	      //cards
-	      data.forEach(function (d, i) {
-	          var sequenceId = d.Sequence_ID;
-	          var cards = d3.select("#fv").selectAll("._line" + i)
-              .data(d.Sequences)
-              .style("fill", function (d) {
-                  return strColor(d);
-              })
-              .attr("class", "_line" + i + " generation" + generation);
 
-	          cards.enter().append("rect")
-              .attr("class", "_line" + i + " generation" + generation)
-              .attr("x", function (d, j) {
-                  //debugger;
-                  return j * gridWidth + 100;
-              })
-              .attr("y", function (d, j) {
-                  return i * gridHeight;
-              })
-              .attr("width", function (d, j) {
-                  //debugger;
-                  return gridWidth;
-              })
-              .attr("height", function (d, j) {
-                  return gridHeight;
-              })
-              .style("fill", function (d) {
-                  return strColor(d);
-              });
-	      });
-			
-			
-		function dragmove(d) {	
-		if (d3.event.y>=10&&d3.event.y<=length-10)
-			d3.select(this)
-			  .attr("y", d.y=d3.event.y-20),
-			  d3.select("#heat")
-			    .attr("transform", "translate(" + (0) + "," + (-d3.event.y + 25) + ")"),
-			  d3.select("#d3-plot")
-				.attr("transform", "translate(" + (0) + "," + (-d3.event.y ) + ")");
-      }
-	  var drag = d3.behavior.drag().on("drag", dragmove); 
-						
-		
-		var rects = [{x:width, y:00}];
-		var frame = d3.select("#fv").append("svg")
-								.attr("width",300)
-								.attr("height",150);
-		
-			
-		frame.data(rects)
-			.append("rect")
-			.attr("x",function(d){ return d.x; })
-			.attr("y",function(d){ return d.y; })
-			.attr("width",width)
-			.attr("height",40)
-			.attr("fill-opacity",0.2)
-			.attr("fill","blue")
-			.call(drag); 
-			
-			
-	      if (generation > 0) {
-	          oldbases = d3.selectAll(".generation" + (generation - 1)).remove();
-	      }
-		  
-	  }
-	  
 	  function changeOverAllDisplaySize()
 	  {
 		//multiply numberOfEntriesTotal/(numberOfEntriesDisplayed) and the height ration of the small window
@@ -466,8 +421,6 @@
 				
         //cards
 	      baseDisplayUpdate(data);
-		  
-		  updateFullView(data,100,150);
          //debugger;
          var min_val = d3.min(data, function(d) {
           // console.log(d.boxes["0"]);
@@ -573,9 +526,9 @@
 		 //alert("done modifying");
 
       }
-		
 
-	
+
+
 
 
 	  d3.json("data/NotSameColumns.json", function (data) {
@@ -707,7 +660,7 @@
 	
 	function vulnerabilityComp(a, b)
 	{
-		return b.Vulnerability - a.Vulnerability;
+		return b.At_Risk_Vulnerability - a.At_Risk_Vulnerability;
 	}
   
   
@@ -816,8 +769,6 @@
 	
 	return true;
   }
-  
-
     </script>
 	</body>
 	</html>
