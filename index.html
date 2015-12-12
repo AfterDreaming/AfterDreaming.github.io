@@ -41,7 +41,7 @@
 		<div>
 			<button type="button" data-toggle="collapse" data-target="#sortnfilter" style="margin-left:50px">Sorting and Filtering Options</button>
 			<div id="sortnfilter" class="collapse">	
-				<div id="filter" style="border:3px; display:inline-block;vertical-align:text-top;">
+				<div id="filter" style="border:3px; display:inline-block;vertical-align:text-top;margin-left:10px">
 					<ul><li style="display:inline-block; vertical-align:text-top;"><button type="button"  onclick="draw(overallData)"><strong>Filter</strong></button></li></ul>
 					<ul>
 						<li style="display:inline-block; vertical-align:text-top;"><div id="symptoms" >
@@ -140,13 +140,12 @@
 		<div>
         <div id="parent" style="width:100%">
             <div id="heat-map" class="left" style="margin-left:50px; width:50%;"></div>
-            <div id="stack-bar" class="right" style="width:20%;"></div>
+            <div id="stack-bar" class="right" style="margin-left:22px;width:20%;"></div>
             <div class="right" style="width:10%;">
               <div id="legend" >
               </div>
               <svg id="fv" style="float:left;" ></svg>
             </div> 
-
 
         </div>
 		
@@ -173,13 +172,13 @@
 	  
       function strColor(s) {
         if (s == 'A')
-          return 'orange';
+          return '#9C9F84';
         if (s == 'T')
-          return 'yellow';
+          return '#A97D5D ';
         if (s == 'G')
-          return 'green';
+          return '#F7DCB4';
         if (s == 'C')
-          return 'red';
+          return '#5C755E';
         return 'black';
       }
 
@@ -202,9 +201,9 @@
 
       var margin = { top: 0, right: 0, bottom: 100, left: 100 },
       width = 800 - margin.left - margin.right,
-      height = 620 - margin.top - margin.bottom,
+      height = 600 - margin.top - margin.bottom,
       gridWidth = Math.floor(width / 50),
-      gridHeight = 10,
+      gridHeight = 15,
       legendElementWidth = gridHeight*2;
 
 
@@ -214,7 +213,7 @@
       stack_height = (height + margin.top + margin.bottom);
 
       var color = d3.scale.ordinal()
-      .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
+      .range(["#9CAA9C", "#BDCFBD", "#CEDFCE", "#EFEFDE", "#BD9A52"]);
 
       color.domain(['Symptoms','Mortality','Complications','Drug_Resistance','At_Risk_Vulnerability']);
 
@@ -238,11 +237,11 @@
       .attr("height",height + margin.top + margin.bottom)
       .append("g")
 	  .attr("id","heat")
-      .attr("transform", "translate(" + 0 + "," + (margin.top + 25) + ")");
+      .attr("transform", "translate(" + 0 + "," + (margin.top ) + ")");
 
       var svg_stack = d3.select("#stack-bar").append("svg")
       .attr("height", stack_height)
-      .attr("width", "420")
+      .attr("width", "310")
       .attr("id", "d3-plot")
       .append("g")
       .attr("transform", "translate(" + (margin.left / 3) + "," + (margin.top) + ")");
@@ -255,7 +254,7 @@
             .attr("width", "200")
             .attr("height", stack_height/3)
             .attr("id","svg_legend")
-            .attr("transform", "translate(" + 0 + "," + (margin.top + 25) + ")");
+            .attr("transform", "translate(" + 0 + "," + (margin.top ) + ")");
 
 	      var startp = d3.select("#svg_legend").append("g")
           .attr("class", "legendbox")
@@ -313,7 +312,7 @@
          .attr("class", "idLabel")
          .text(function (d) {numberOfEntriesDisplayed++; return d.Sequence_ID;})
          .attr("x", 0)
-         .attr("y", function (d, i) { return i * gridHeight + 26; })
+         .attr("y", function (d, i) { return i * gridHeight + 3; })
          .style("font-size", "12px")
          .style("text-anchor", "end")
          .attr("transform", "translate(-6," + gridHeight / 1.5 + ")");
@@ -384,7 +383,7 @@
               .attr("class", "_line" + i + " generation" + generation)
               .attr("x", function (d, j) {
                   //debugger;
-                  return j * gridWidth + 100;
+                  return j * gridWidth ;
               })
               .attr("y", function (d, j) {
                   return i * gridHeight;
@@ -403,21 +402,20 @@
 			
 			
 		function dragmove(d) {	
-		if (d3.event.y>=10&&d3.event.y<=length-10)
+		if (d3.event.y>=15*gridHeight&&d3.event.y<=length-15*gridHeight&&numberOfEntriesDisplayed>40)
 			d3.select(this)
-			  .attr("y", d.y=d3.event.y-20),
+			  .attr("y", d.y=d3.event.y-20*gridHeight),
 			  d3.select("#heat")
-			    .attr("transform", "translate(" + (0) + "," + (-d3.event.y + 25) + ")"),
+			    .attr("transform", "translate(" + (0) + "," + (-(d3.event.y/gridHeight-20)*15) + ")"),
 			  d3.select("#d3-plot")
-				.attr("transform", "translate(" + (0) + "," + (-d3.event.y ) + ")");
+				.attr("transform", "translate(" + (0) + "," + (-(d3.event.y/gridHeight-20)*15 )+ ")");
       }
 	  var drag = d3.behavior.drag().on("drag", dragmove); 
-						
-		
-		var rects = [{x:width, y:00}];
+					
+		var rects = [{x:00, y:00}];
 		var frame = d3.select("#fv").append("svg")
 								.attr("width",300)
-								.attr("height",150);
+								.attr("height",250);
 		
 			
 		frame.data(rects)
@@ -425,9 +423,9 @@
 			.attr("x",function(d){ return d.x; })
 			.attr("y",function(d){ return d.y; })
 			.attr("width",width)
-			.attr("height",40)
+			.attr("height",40*gridHeight)
 			.attr("fill-opacity",0.2)
-			.attr("fill","blue")
+			.attr("fill","purple")
 			.call(drag); 
 			
 			
@@ -511,7 +509,7 @@
          .attr("height", gridHeight)
          .attr("transform", function(d, i) { 
              //debugger;
-             return "translate(0," + (i * gridHeight + 23) + ")";
+             return "translate(0," + (i * gridHeight ) + ")";
              //y.Sequence_ID(i);
           }
           );
@@ -583,7 +581,7 @@
 
 	  d3.json("data/NotSameColumns.json", function (data) {
 	      notSameColumns = data;
-	  });
+	  })
 			
 	  d3.tsv("data/DiseaseCharacteristics.tsv", function (data2) {
         d3.json("data/strains.json", function(data1) {
